@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NESP · منصة الإدارة التنفيذية للخدمات التمريضية - مستشفى جازان التخصصي</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // NESP brand theme — maps existing utility classes onto the NESP palette.
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              // NESP named colors
+              navy:      { DEFAULT: '#102037', deep: '#0B1626', 800: '#18283C' },
+              brandblue: { DEFAULT: '#3C78A8', light: '#609CC0', mid: '#4878A8', sky: '#8FC1DB' },
+              ink:       '#102037',
+              // Remap legacy `teal` scale -> NESP navy/blue so existing markup renders in-brand
+              teal: {
+                50:  '#F0F5F9', 100: '#E1EBF3', 200: '#C3D6E6', 300: '#8FC1DB',
+                400: '#609CC0', 500: '#4878A8', 600: '#3C78A8', 700: '#102037',
+                800: '#18283C', 900: '#0B1626',
+              },
+              // Remap legacy `emerald` scale -> NESP success green
+              emerald: {
+                50:  '#EAF6F0', 100: '#D5EEE1', 200: '#A9DDC3', 300: '#7ACBA4',
+                400: '#4EB587', 500: '#2E9E6B', 600: '#2A8E60', 700: '#237A52',
+                800: '#1D6244', 900: '#164B34',
+              },
+            },
+            fontFamily: {
+              latin:  ['Poppins', 'Inter', 'system-ui', 'sans-serif'],
+              arabic: ['"IBM Plex Sans Arabic"', '"Noto Kufi Arabic"', 'Tajawal', 'sans-serif'],
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='nesp/nesp-brand.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>body { font-family: var(--nesp-font-arabic); }</style>
+</head>
+<body class="bg-gray-50 text-gray-800 flex flex-col h-screen overflow-hidden">
+
+    <header class="nesp-on-navy text-white shadow-md px-6 py-4 flex justify-between items-center z-10">
+        <div class="flex items-center space-x-reverse space-x-3">
+            <img src="{{ url_for('static', filename='nesp/mark-white-transparent.png') }}"
+                 alt="NESP" class="h-10 w-10 object-contain">
+            <div class="leading-tight">
+                <h1 class="text-xl font-bold">منصة الإدارة التنفيذية للخدمات التمريضية</h1>
+                <p class="text-[11px] tracking-wide text-brandblue-sky/90">Nursing Executive Services Management Platform · NESP</p>
+            </div>
+        </div>
+        
+        {% if session.get('user_id') %}
+        <div class="flex items-center space-x-reverse space-x-4">
+            <span class="text-sm bg-teal-800 px-3 py-1.5 rounded-md">👤 {{ session.get('user_name') }}</span>
+            <a href="/logout" class="text-sm bg-red-600 hover:bg-red-700 px-3 py-1.5 rounded-md transition font-medium">تسجيل الخروج</a>
+        </div>
+        {% else %}
+        <div class="text-sm bg-teal-800 px-4 py-2 rounded-lg">مستشفى جازان التخصصي</div>
+        {% endif %}
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="fixed top-20 left-6 right-6 z-50 max-w-md mx-auto space-y-2">
+          {% for category, message in messages %}
+            <div class="p-4 rounded-lg shadow-lg text-white font-medium text-sm {% if category == 'success' %} bg-emerald-600 {% else %} bg-red-600 {% endif %}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <div class="flex flex-1 overflow-hidden">
+        {% if session.get('user_id') %}
+        <nav class="w-64 bg-white border-l border-gray-200 hidden md:flex flex-col justify-between p-4">
+            <ul class="space-y-2">
+                <li>
+                    <a href="/" class="flex items-center p-3 rounded-lg font-medium transition {% if request.path == '/' %} text-teal-700 bg-teal-50 {% else %} text-gray-600 hover:bg-gray-50 {% endif %}">
+                        <span>📊 لوحة التحكم الرئيسية</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/staff" class="flex items-center p-3 rounded-lg font-medium transition {% if request.path == '/staff' %} text-teal-700 bg-teal-50 {% else %} text-gray-600 hover:bg-gray-50 {% endif %}">
+                        <span>👥 قاعدة بيانات الموظفين</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/awards" class="flex items-center p-3 rounded-lg font-medium transition {% if request.path == '/awards' %} text-teal-700 bg-teal-50 {% else %} text-gray-600 hover:bg-gray-50 {% endif %}">
+                        <span>🏆 نظام التكريم والجوائز</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/profile" class="flex items-center p-3 rounded-lg font-medium transition {% if request.path == '/profile' %} text-teal-700 bg-teal-50 {% else %} text-gray-600 hover:bg-gray-50 {% endif %}">
+                        <span>👤 ملفي الشخصي</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="text-xs text-gray-400 text-center border-t pt-4">الإصدار النهائي v1.3.0 © 2026</div>
+        </nav>
+        {% endif %}
+
+        <main class="flex-1 p-6 overflow-y-auto">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>

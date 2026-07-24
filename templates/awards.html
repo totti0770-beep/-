@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-7xl mx-auto space-y-6">
+
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+        <h2 class="text-2xl font-bold text-gray-900 mb-1">🏆 نظام التكريم واللوحة الشرفية (Gamification)</h2>
+        <p class="text-gray-500 text-sm">تحفيز الكوادر التمريضية وتكريم الأداء المتميز بشارات وأوسمة إدارية معتمدة.</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 space-y-4">
+            <h3 class="text-lg font-bold text-gray-900 border-b pb-3">🎖️ منح وسام أو شارة جديدة</h3>
+            
+            <form method="POST" action="/awards" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">اختر الممرض/ة المكرم/ة</label>
+                    <select name="staff_id" required class="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none bg-white">
+                        <option value="">-- اختر الموظف --</option>
+                        {% for staff in staff_members %}
+                        <option value="{{ staff.id }}">{{ staff.name }} ({{ staff.employee_id }} - {{ staff.department.name }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">نوع التكريم أو الشارة</label>
+                    <select name="award_type" required class="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none bg-white">
+                        <option value="وسام التميز القيادي 🥇">وسام التميز القيادي 🥇</option>
+                        <option value="شارة الجودة الإكلينيكية ⭐">شارة الجودة الإكلينيكية ⭐</option>
+                        <option value="وسام بطل العناية المركزة 🏅">وسام بطل العناية المركزة 🏅</option>
+                        <option value="شارة الانضباط والتفاني 🎖️">شارة الانضباط والتفاني 🎖️</option>
+                        <option value="بطاقة شكر وتناغم فريق ❤️">بطاقة شكر وتناغم فريق ❤️</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="w-full bg-teal-700 hover:bg-teal-800 text-white font-bold py-2.5 rounded-lg transition shadow-md text-sm">
+                    اعتماد وإسناد التكريم
+                </button>
+            </form>
+        </div>
+
+        <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 p-6 space-y-4">
+            <h3 class="text-lg font-bold text-gray-900 border-b pb-3">📜 لوحة الشرف التاريخية للأوسمة</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {% for rec in recognitions %}
+                <div class="p-4 rounded-xl border border-amber-200 bg-amber-50/40 space-y-2 flex flex-col justify-between">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="text-xs bg-amber-200/60 text-amber-900 px-2.5 py-1 rounded-full font-bold inline-block mb-1">{{ rec.award_type }}</span>
+                            <h4 class="font-bold text-gray-900 text-base">{{ rec.staff.name }}</h4>
+                        </div>
+                        <span class="text-[10px] text-gray-400 font-mono">{{ rec.timestamp.strftime('%Y-%m-%d') }}</span>
+                    </div>
+                    <div class="text-xs text-gray-500 flex justify-between items-center border-t border-amber-100 pt-2 mt-1">
+                        <span>القسم: <strong class="text-gray-700">{{ rec.staff.department.name }}</strong></span>
+                        <span>بواسطة: <strong class="text-teal-700">{{ rec.granted_by }}</strong></span>
+                    </div>
+                </div>
+                {% else %}
+                <div class="col-span-2 p-8 text-center text-gray-400">
+                    لم يتم تسجيل أي أوسمة أو جوائز حتى الآن.
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

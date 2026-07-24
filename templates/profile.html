@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6">
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-reverse md:space-x-6">
+        <div class="w-24 h-24 bg-teal-100 rounded-full flex items-center justify-center text-4xl text-teal-700 font-bold shadow-inner">
+            👤
+        </div>
+        <div class="flex-1 text-center md:text-right space-y-2">
+            <div class="flex flex-col md:flex-row md:items-center justify-between">
+                <h2 class="text-2xl font-bold text-gray-900">{{ current_user.name }}</h2>
+                <span class="mt-2 md:mt-0 inline-block px-3 py-1 bg-teal-50 text-teal-700 rounded-full text-xs font-semibold">{{ current_user.role }}</span>
+            </div>
+            <p class="text-gray-500 text-sm">الرقم الوظيفي المشفر: <span class="font-mono text-gray-800 font-medium">{{ current_user.employee_id }}</span></p>
+            <p class="text-gray-500 text-sm">البريد الإلكتروني الأساسي: <span class="font-mono text-gray-800 font-medium">{{ current_user.email }}</span></p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 space-y-4">
+            <h3 class="text-lg font-bold text-gray-800 border-b pb-2">🏥 معلومات التخصيص الإداري</h3>
+            <div class="space-y-2 text-sm">
+                <p class="text-gray-600">القسم الحالي: <span class="text-gray-900 font-medium">{{ current_user.department.name }}</span></p>
+                <p class="text-gray-600">موقع العمل الميداني: <span class="text-gray-900 font-medium">{{ current_user.department.location }}</span></p>
+                <p class="text-gray-600">الحالة الميدانية: <span class="text-emerald-700 font-medium">🟢 {{ current_user.status }}</span></p>
+            </div>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 space-y-4">
+            <h3 class="text-lg font-bold text-gray-800 border-b pb-2">🏆 الجوائز والشارات المستحقة</h3>
+            <div class="space-y-2">
+                {% for rec in recognitions %}
+                <div class="p-3 bg-amber-50 border border-amber-100 rounded-lg flex justify-between items-center">
+                    <div>
+                        <p class="font-bold text-amber-900 text-sm">{{ rec.award_type }}</p>
+                        <p class="text-xs text-gray-500">منحت بواسطة: {{ rec.granted_by }}</p>
+                    </div>
+                    <span class="text-[10px] text-amber-700 font-mono">{{ rec.timestamp.strftime('%Y-%m-%d') }}</span>
+                </div>
+                {% else %}
+                <p class="text-gray-400 text-sm text-center py-4">لا توجد جوائز مسجلة حتى الآن لهذا الملف.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,88 @@
+/* ============================================================
+   NESP — Nursing Executive Services Management Platform
+   منصة الإدارة التنفيذية للخدمات التمريضية
+   مستشفى جازان التخصصي · Jazan Specialist Hospital
+   Brand tokens · v1.0.0
+   Standard ref: MOH-KSA visual identity alignment
+   ============================================================ */
+
+:root {
+  /* ---- Brand ---- */
+  --nesp-navy:        #102037;
+  --nesp-navy-deep:   #0B1626;
+  --nesp-navy-800:    #18283C;
+  --nesp-blue:        #3C78A8;
+  --nesp-blue-light:  #609CC0;
+  --nesp-blue-mid:    #4878A8;
+  --nesp-sky:         #8FC1DB;
+
+  /* ---- Neutral ---- */
+  --nesp-white:    #FBFCFC;
+  --nesp-gray-50:  #F4F6F8;
+  --nesp-gray-100: #E6EBF0;
+  --nesp-gray-300: #C2CDD8;
+  --nesp-gray-500: #7A8899;
+  --nesp-gray-700: #3E4A5A;
+  --nesp-ink:      #102037;
+
+  /* ---- Semantic ---- */
+  --nesp-success: #2E9E6B;
+  --nesp-warning: #E0A030;
+  --nesp-danger:  #D24B4B;
+  --nesp-info:    #3C78A8;
+
+  /* ---- Gradients ---- */
+  --nesp-grad-brand:  linear-gradient(135deg, #609CC0 0%, #3C78A8 55%, #102037 100%);
+  --nesp-grad-navy:   linear-gradient(160deg, #18283C 0%, #102037 100%);
+  --nesp-grad-silver: linear-gradient(135deg, #FFFFFF 0%, #C2CDD8 100%);
+
+  /* ---- Typography ---- */
+  --nesp-font-latin:  'Poppins', 'Inter', system-ui, sans-serif;
+  --nesp-font-arabic: 'IBM Plex Sans Arabic', 'Noto Kufi Arabic', 'Tajawal', sans-serif;
+
+  /* ---- Radius ---- */
+  --nesp-radius-sm: 6px;
+  --nesp-radius-md: 10px;
+  --nesp-radius-lg: 16px;
+  --nesp-radius-xl: 24px;
+  --nesp-radius-pill: 999px;
+
+  /* ---- Spacing ---- */
+  --nesp-space-1: 4px;
+  --nesp-space-2: 8px;
+  --nesp-space-3: 12px;
+  --nesp-space-4: 16px;
+  --nesp-space-5: 24px;
+  --nesp-space-6: 32px;
+  --nesp-space-8: 48px;
+  --nesp-space-10: 64px;
+
+  /* ---- Shadows ---- */
+  --nesp-shadow-sm:  0 1px 2px rgba(16,32,55,0.08);
+  --nesp-shadow-md:  0 4px 12px rgba(16,32,55,0.12);
+  --nesp-shadow-lg:  0 12px 32px rgba(16,32,55,0.18);
+  --nesp-shadow-glow:0 0 24px rgba(96,156,192,0.35);
+}
+
+/* Dark surface helper (navy sections) */
+.nesp-on-navy {
+  background: var(--nesp-grad-navy);
+  color: var(--nesp-white);
+}
+
+/* Brand button */
+.nesp-btn {
+  font-family: var(--nesp-font-latin);
+  font-weight: 600;
+  border-radius: var(--nesp-radius-md);
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.nesp-btn--primary { background: var(--nesp-blue); color: var(--nesp-white); }
+.nesp-btn--primary:hover { background: var(--nesp-blue-mid); box-shadow: var(--nesp-shadow-md); }
+.nesp-btn--ghost { background: transparent; color: var(--nesp-blue); border: 1.5px solid var(--nesp-blue); }
+
+/* RTL default for Arabic content */
+[dir="rtl"] { font-family: var(--nesp-font-arabic); }
