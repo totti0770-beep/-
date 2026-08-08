@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto space-y-6">
+    
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-1">لوحة القيادة والمتابعة التنفيذية</h2>
+            <p class="text-gray-500 text-sm">مرحباً بك مجدداً، المؤشرات أدناه محدثة تلقائياً بناءً على السجلات الإكلينيكية الحالية.</p>
+        </div>
+        <span class="text-xs bg-teal-50 text-teal-700 px-3 py-1.5 rounded-md font-medium">مستقر 🟢</span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow-sm border-r-4 border-teal-600 flex items-center justify-between">
+            <div>
+                <p class="text-sm text-gray-500 font-medium">إجمالي كادر التمريض</p>
+                <h3 class="text-3xl font-bold text-gray-900 mt-1">{{ stats.total_nurses }} ممرض/ة</h3>
+            </div>
+            <div class="text-3xl bg-teal-50 p-3 rounded-xl">👥</div>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-sm border-r-4 border-emerald-600 flex items-center justify-between">
+            <div>
+                <p class="text-sm text-gray-500 font-medium">متوسط معدل الرضا</p>
+                <h3 class="text-3xl font-bold text-gray-900 mt-1">{{ stats.satisfaction_rate }}</h3>
+            </div>
+            <div class="text-3xl bg-emerald-50 p-3 rounded-xl">❤️</div>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-sm border-r-4 border-amber-500 flex items-center justify-between">
+            <div>
+                <p class="text-sm text-gray-500 font-medium">ساعات التدريب المنجزة</p>
+                <h3 class="text-3xl font-bold text-gray-900 mt-1">{{ stats.training_hours }} ساعة</h3>
+            </div>
+            <div class="text-3xl bg-amber-50 p-3 rounded-xl">📚</div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="p-5 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
+                <h3 class="font-bold text-gray-900 text-lg">أحدث الكوادر التمريضية المسجلة بالمنصة</h3>
+                <a href="/staff" class="text-xs text-teal-700 font-medium hover:underline">عرض الكل ←</a>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-right border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100/70 text-gray-600 text-sm font-semibold">
+                            <th class="p-4">الاسم</th>
+                            <th class="p-4">الرقم الوظيفي</th>
+                            <th class="p-4">المسمى الوظيفي</th>
+                            <th class="p-4">القسم</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 text-sm text-gray-700">
+                        {% for staff in recent_staff %}
+                        <tr class="hover:bg-gray-50/80 transition">
+                            <td class="p-4 font-medium text-gray-900">{{ staff.name }}</td>
+                            <td class="p-4 font-mono text-xs">{{ staff.employee_id }}</td>
+                            <td class="p-4"><span class="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-medium">{{ staff.role }}</span></td>
+                            <td class="p-4 text-teal-700 font-medium">{{ staff.department.name }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="p-8 text-center text-gray-400">لا توجد كوادر تمريضية مسجلة.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-bold text-gray-900 text-lg">لوحة الشرف والتكريم</h3>
+                <a href="/awards" class="text-xs text-teal-700 font-medium hover:underline">لوحة التكريم ←</a>
+            </div>
+            <div class="space-y-3">
+                {% for award in recent_awards %}
+                <div class="p-3 rounded-lg bg-amber-50/60 border border-amber-100 space-y-1">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-amber-900 text-sm">{{ award.award_type }}</span>
+                        <span class="text-[10px] text-amber-700">{{ award.timestamp.strftime('%Y-%m-%d') }}</span>
+                    </div>
+                    <p class="text-xs text-gray-600">المكرم: <span class="font-bold text-gray-800">{{ award.staff.name }}</span></p>
+                    <p class="text-[11px] text-gray-400">بواسطة: {{ award.granted_by }}</p>
+                </div>
+                {% else %}
+                <p class="text-xs text-gray-400 text-center py-6">لا توجد تكريمات جديدة مسجلة.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
